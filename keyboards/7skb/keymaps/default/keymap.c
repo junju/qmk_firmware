@@ -22,11 +22,7 @@ enum layer_number {
   RGB_RST = SAFE_RANGE
 };*/
 
-enum custom_keycodes { JP = SAFE_RANGE,
- US, 
- UBUNTU, 
- MAC, 
- SHIFT, LOWER, RAISE, ADJUST, CSTM_0, CSTM_1, CSTM_2, CSTM_3, CSTM_4, CSTM_5, CSTM_6, CSTM_7, CSTM_8, CSTM_9, CIRC, AT, LBRC, RBRC, BSLS, AMPR, QUOT, LPRN, RPRN, EQL, TILD, PIPE, GRV, LCBR, PLUS, ASTR, RCBR, UNDS, MINS, SCLN, COMM, DOT, SLSH, EXLM, HASH, DLR, PERC, DEL, DESKDN, DESKUP, RGB_RST};
+enum custom_keycodes { JP = SAFE_RANGE, US, UBUNTU, MAC, SHIFT, LOWER, RAISE, ADJUST, CSTM_0, CSTM_1, CSTM_2, CSTM_3, CSTM_4, CSTM_5, CSTM_6, CSTM_7, CSTM_8, CSTM_9, CIRC, AT, LBRC, RBRC, BSLS, AMPR, QUOT, LPRN, RPRN, EQL, TILD, PIPE, GRV, LCBR, PLUS, ASTR, RCBR, UNDS, MINS, SCLN, COMM, DOT, SLSH, EXLM, HASH, DLR, PERC, DEL, DESKDN, DESKUP, RGB_RST };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {[_QWERTY] = LAYOUT(
                                                                   //,-----------------------------------------------------|   |--------------------------------------------------------------------------------.
@@ -75,18 +71,20 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #ifdef RGBLIGHT_ENABLE
     switch (get_highest_layer(state)) {
         case _FN:
-            //rgblight_sethsv_at(HSV_BLUE, 0);
-            rgblight_disable();
+            rgblight_set_effect_range(1, RGBLED_NUM-1);
+            rgblight_sethsv_noeeprom(HSV_BLUE);
+            // rgblight_disable();
             break;
         case _ADJUST:
-            rgblight_sethsv_at(HSV_PURPLE, 0);
+            rgblight_set_effect_range(1, RGBLED_NUM-1);
+            rgblight_sethsv_noeeprom(HSV_PURPLE);
             break;
         default:  //  for any other layers, or the default layer
-            rgblight_enable();
-            rgblight_sethsv_at(0, 0, 0, 0);
+            // rgblight_enable();
+            rgblight_set_effect_range(1, RGBLED_NUM-1);
+            rgblight_sethsv_noeeprom(HSV_RED);
             break;
     }
-    rgblight_set_effect_range(1, 1);
 #endif
     return state;
 }
